@@ -20,3 +20,16 @@ services:
       - ./pgdata:/var/lib/postgresql/data
     ports:
       - "54322:5432"
+        
+  minio:
+    image: minio/minio:latest
+    restart: always
+    environment:
+      MINIO_ROOT_USER: testkey
+      MINIO_ROOT_PASSWORD: testsecret
+    volumes:
+      - ./minio:/data
+    command: server --console-address ":9001" /data
+    ports:
+      - "9000:9000"
+      - "9001:9001"

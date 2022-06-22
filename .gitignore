@@ -16,3 +16,7 @@
 
 pgdata
 .idea
+tmp
+.env
+minio
+tmp/*
