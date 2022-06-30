@@ -67,3 +67,12 @@ func AdminRoutes(api fiber.Router, db *gorm.DB) {
 	admin.Get("approve-property/:id", adminController.ApproveProperty)
 	admin.Get("reject-property/:id", adminController.RejectProperty)
 }
+
+func MessageRoutes(api fiber.Router, db *gorm.DB) {
+	messageController := controllers.CreateMessageController(db)
+	message := api.Group("message", middleware.ValidateUser)
+
+	message.Get("conversations", messageController.GetConversations)
+	message.Get("get-messages/:id", messageController.GetMessages)
+	message.Post("send-message", messageController.SendMessage)
+}

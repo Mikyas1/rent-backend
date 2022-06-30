@@ -2,16 +2,19 @@ package controllers
 
 import (
 	"gorm.io/gorm"
+	message2 "rent/src/adaptors/message"
 	properties2 "rent/src/adaptors/properties"
 	rent2 "rent/src/adaptors/rent"
 	storage2 "rent/src/adaptors/storage"
 	"rent/src/adaptors/users"
 	"rent/src/controllers/adminController"
+	"rent/src/controllers/messageController"
 	"rent/src/controllers/objectStorageProxy"
 	"rent/src/controllers/propertyController"
 	"rent/src/controllers/rentControllers"
 	"rent/src/controllers/userController"
 	"rent/src/services/admin"
+	"rent/src/services/message"
 	"rent/src/services/objectStorage"
 	"rent/src/services/property"
 	"rent/src/services/rent"
@@ -45,4 +48,9 @@ func CreateRentController(db *gorm.DB) rentControllers.RentController {
 func CreateAdminController(db *gorm.DB) adminController.AdminController {
 	adminService := admin.NewDefaultAdminService(properties2.NewPropertyRepository(db), rent2.NewRentRepository(db))
 	return adminController.NewAdminController(adminService)
+}
+
+func CreateMessageController(db *gorm.DB) messageController.MessageController {
+	service := message.NewMessageService(message2.NewMessageRepository(db))
+	return messageController.NewMessageController(service)
 }
