@@ -3,6 +3,7 @@ package application
 import (
 	"context"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"os"
 	"rent/src/datasource"
 	"rent/src/middleware"
@@ -59,6 +60,7 @@ func setUpStorage() error {
 
 func setUpFiberApp() error {
 	app := fiber.New()
+	app.Use(cors.New())
 	app.Use(middleware.GetBearerToken)
 	RegisterApi(app)
 	if err := app.Listen(":" + Port); err != nil {

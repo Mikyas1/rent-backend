@@ -2,7 +2,9 @@ package application
 
 import (
 	"rent/src/datasource"
+	"rent/src/entities/message"
 	"rent/src/entities/properties"
+	"rent/src/entities/rent"
 	"rent/src/entities/users"
 )
 
@@ -61,6 +63,7 @@ func SetUpTable(Db datasource.Database) {
 	_ = Db.ProvideDb().Exec("CREATE TYPE property_status AS ENUM (" +
 		"'PENDINGAPPROVAL'," +
 		"'APPROVED'," +
+		"'REJECTED'," +
 		"'RENTED');")
 
 	// PropertyType
@@ -69,6 +72,27 @@ func SetUpTable(Db datasource.Database) {
 		"'APARTMENT'," +
 		"'VILLA'," +
 		"'STUDIO');")
+
+	// RentRequestStatus
+	_ = Db.ProvideDb().Exec("DROP TYPE IF EXISTS rent_request_status;")
+	_ = Db.ProvideDb().Exec("CREATE TYPE rent_request_status AS ENUM (" +
+		"'PENDING'," +
+		"'ACCEPTED'," +
+		"'REJECTED');")
+
+	// RentStatus
+	_ = Db.ProvideDb().Exec("DROP TYPE IF EXISTS rent_status;")
+	_ = Db.ProvideDb().Exec("CREATE TYPE rent_status AS ENUM (" +
+		"'ONGOING'," +
+		"'COMPLETED');")
+
+	// PaymentType
+	_ = Db.ProvideDb().Exec("DROP TYPE IF EXISTS payment_types;")
+	_ = Db.ProvideDb().Exec("CREATE TYPE payment_types AS ENUM (" +
+		"'WEEKLY'," +
+		"'MONTHLY'," +
+		"'ANNUALLY');")
+
 }
 
 func DropTables(db datasource.Database) error {
@@ -77,6 +101,10 @@ func DropTables(db datasource.Database) error {
 		users.AdminUser{},
 		properties.Property{},
 		properties.Address{},
+		rent.RentRequest{},
+		rent.Rent{},
+		message.Conversation{},
+		message.Message{},
 	)
 }
 func CreateTables(db datasource.Database) error {
@@ -85,5 +113,9 @@ func CreateTables(db datasource.Database) error {
 		users.AdminUser{},
 		properties.Property{},
 		properties.Address{},
+		rent.RentRequest{},
+		rent.Rent{},
+		message.Conversation{},
+		message.Message{},
 	)
 }

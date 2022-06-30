@@ -158,6 +158,7 @@ const (
 	PendingApproval PropertyStatus = "PENDINGAPPROVAL"
 	Approved        PropertyStatus = "APPROVED"
 	Rented          PropertyStatus = "RENTED"
+	Rejected        PropertyStatus = "REJECTED"
 
 	Apartment PropertyType = "APARTMENT"
 	Villa     PropertyType = "VILLA"
@@ -168,5 +169,5 @@ var AllFeatures Features = Features{AirCondition, Garden, Pool, Balcony, WaterTa
 var AllRegions []Region = []Region{Oromia, Amhara, AddisAbabaR}
 var AllCities []City = []City{Baherdar, Adama, Hawasa, AddisAbaba}
 var AllCountries []Country = []Country{Ethiopia, Eritrea, Sudan}
-var AllPropertyStatus []PropertyStatus = []PropertyStatus{PendingApproval, Approved, Rented}
+var AllPropertyStatus []PropertyStatus = []PropertyStatus{PendingApproval, Approved, Rented, Rejected}
 var AllPropertyTypes []PropertyType = []PropertyType{Apartment, Villa, Studio}

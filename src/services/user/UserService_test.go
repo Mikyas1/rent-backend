@@ -124,6 +124,10 @@ func TestDefaultUserService_RegisterUser(t *testing.T) {
 		t.Errorf("user should have been assigned a UUID")
 	}
 
+	if res.User.RenterProfileId != nil {
+		t.Errorf("Renter profile should be nil")
+	}
+
 }
 
 func TestDefaultUserService_LoginUser_with_correct_credentials(t *testing.T) {

@@ -26,6 +26,8 @@ func (s DefaultUserService) RegisterUser(dto RegisterDto) (*LoggedUser, *errors.
 	user.Password, _ = hash.HashPassword(dto.Password)
 	user.Status = users.Active
 	user.UUID = uuid.New()
+	user.RenterProfile = nil
+	user.RenterProfileId = nil
 
 	err = s.repo.AddRegularUser(&user)
 	if err != nil {
@@ -66,6 +68,22 @@ func (s DefaultUserService) LoginUser(dto LoginDto) (*LoggedUser, *errors.RestEr
 	} else {
 		return nil, errors.NewBadRequestError("Email and Password dont match", "")
 	}
+}
+
+func (s DefaultUserService) AddRenterProfile(userId uuid.UUID, dto RenterProfileDto) (*users.RenterProfile, *errors.RestError) {
+	err := dto.Validate()
+	if err != nil {
+		return nil, err
+	}
+	us, err := s.repo.AddRenterProfile(userId, dto.Create())
+	if err != nil {
+		return nil, err
+	}
+	return us.RenterProfile, nil
+}
+
+func (s DefaultUserService) GetRenterProfile(userId uuid.UUID) (*users.RenterProfile, *errors.RestError) {
+	return s.repo.GetRenterProfile(userId)
 }
 
 func NewDefaultUserService(repo users.Repository) UserService {
